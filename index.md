@@ -1,7 +1,6 @@
----
+
 layout: default
 title: 서울참정형외과의원
-home: true 
 ---
 
 <div class="banner">
@@ -9,10 +8,8 @@ home: true
     <source media="(max-width: 840px)" srcset="img/mobile-banner.jpg">
     <img src="img/banner1.jpg" alt="배너1" class="slide" style="display: block;">
     <img src="img/banner2.jpg" alt="배너2" class="slide" style="display: none;">
-    <img src="img/banner3.jpg" alt="배너3" class="slide" style="display: none;">
     <img src="img/banner4.jpg" alt="배너4" class="slide" style="display: none;">
   </picture>
-</div>
 
 <div class="sections">
   <div class="section-box">
@@ -26,7 +23,7 @@ home: true
     <p>051-791-1300<br>상담시간 내 연락 주세요.</p>
   </div>
   <div class="section-box">
-    <a href="https://naver.me/xBwJiqfD">
+    <a href="https://maps.app.goo.gl/YcsEPiPn5uBr47VVA">
       <img src="img/icon/icon3.png" alt="아이콘1" width="80">
     </a>
     <h3>오시는 길</h3>
@@ -63,7 +60,6 @@ home: true
     </div>
   </div>
 </div>
-<div style="height:100px;"></div>
 
 <div class="schedule">
   <div class="clear_fix h100"></div>
@@ -74,14 +70,11 @@ home: true
       <img src="img/maintitle_schedule.jpg" class="text_sizealls2 pc" data-aos="fade-down"/>
     </picture>
   </center>
-  <div class="clear_fix h100"></div>
-  <div class="clear_fix h80 pc"></div>
+  <div class="clear_fix h80"></div>
   <center>
     <picture>
       <source media="(max-width: 840px)" srcset="img/mobile-schedule.jpg" width="90%">
       <img src="img/main4.jpg" alt="진료일정" width="100%">
-  <div class="clear_fix h100"></div>
-  <div class="clear_fix h80 pc"></div>
     </picture>
   </center>
 </div>
@@ -97,9 +90,7 @@ home: true
   </center>
   <div class="clear_fix h80"></div>
   <img src="img/main3.png" alt="협력기관" width="100%">
-<div style="height:100px;"></div>
 </div>
-
 
 <div class="map-section">
   <div class="clear_fix h100"></div>
@@ -113,7 +104,7 @@ home: true
   <div class="clear_fix h80"></div>
   <div id="map"></div>
   <center>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3262.8760975506643!2d129.0901153!3d35.1347654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3568edcf85a63f1f%3A0xbe5db8f41f832f28!2z7ISc7Jq47LC47KCV7ZiV7Jm46rO87J2Y7JuQ!5e0!3m2!1sko!2skr!4v1744176610930!5m2!1sko!2skr" width="90%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3262.8760975506643!2d129.0901153!3d35.1347654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3568edcf85a63f1f%3A0xbe5db8f41f832f28!2z7ISc7Jq47LC47KCV7ZiV7Jm46rO87J2Y7JuQ!5e0!3m2!1sko!2skr!4v1744176610930!5m2!1sko!2skr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </center>
 </div>
 
