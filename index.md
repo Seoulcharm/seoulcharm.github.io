@@ -23,7 +23,7 @@ home: true
   <div class="section-box">
     <img src="img/icon/icon2.png" alt="아이콘1" width="80">
     <h3>전화상담</h3>
-    <p>051-791-1300<br>상담시간 내 연락 주세요.</p>
+    <p>051-791-1300<br>전화 문의 주시면<br>정성껏 상담드리겠습니다. </p>
   </div>
   <div class="section-box">
     <a href="https://naver.me/xBwJiqfD">
@@ -52,13 +52,13 @@ home: true
     </div>
     <div class="side-videos">
       <a href="https://www.youtube.com/watch?v=BNe6_n1V4CQ" target="_blank">
-        <img src="img/mainthumb2.jpg" alt="영상2 썸네일">
+        <img src="img/mainthumb2.jpg" alt="대연동 정형외과 썸네일">
       </a>
       <a href="https://www.youtube.com/watch?v=KEtSMaIaa9o" target="_blank">
-        <img src="img/mainthumb3.jpg" alt="영상3 썸네일">
+        <img src="img/mainthumb3.jpg" alt="대연역 정형외과 영상3 썸네일">
       </a>
       <a href="https://www.youtube.com/watch?v=MXvAT8DJ7Xc" target="_blank">
-        <img src="img/mainthumb4.jpg" alt="영상 4 썸네일">
+        <img src="img/mainthumb4.jpg" alt="못골역 정형외과 영상 4 썸네일">
       </a>
     </div>
   </div>
