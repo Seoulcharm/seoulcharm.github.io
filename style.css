@@ -5,21 +5,21 @@
   /* 폰트 */
   --font-family-base: 'Arial', sans-serif;
   --font-size-base: 16px;
-  --font-size-h1: 2rem;  /* 28px */
+  --font-size-h1: 2rem;      /* 28px */
   --font-size-h2: 1.75rem;   /* 24px */
-  --font-size-h3: 1.5rem;  /* 20px */
-  --font-size-h4: 1.25rem;     /* 16px */
-  --font-size-h5: 1.25rem;  /* 20px */
-  --font-size-h6: 1rem;     /* 16px */
+  --font-size-h3: 1.5rem;    /* 20px */
+  --font-size-h4: 1.25rem;   /* 16px */
+  --font-size-h5: 1.25rem;   /* 20px */
+  --font-size-h6: 1rem;      /* 16px */
   --line-height-base: 1.6;
   --spacing-vertical: 1.5rem;
 
   /* 색상 */
-  --color-text: #333333; /*진회색*/
-  --color-heading: #23378b; /*남색*/
-  --color-link: #007bff;(하늘색)
-  --color-link-hover: #ffffff(흰색)
-  --color-blockquote: #666666; /*grey*/
+  --color-text: #333333;       /* 진회색 */
+  --color-heading: #23378b;    /* 남색 */
+  --color-link: #007bff;       /* 하늘색 */
+  --color-link-hover: #ffffff;  /* 흰색 */
+  --color-blockquote: #666666;  /* grey */
 }
 
 /* ────────────────────────────────────────────
@@ -60,7 +60,6 @@ h3 {
   font-size: var(--font-size-h3);
   color: var(--color-text);
   font-weight: bold;
-
 }
 h4 {
   font-size: var(--font-size-h4);
@@ -72,7 +71,7 @@ h5 {
 }
 h6 {
   font-size: var(--font-size-h6);
-  color: var(--color-hover);
+  color: var(--color-link-hover);
 }
 
 /* ────────────────────────────────────────────
@@ -80,7 +79,8 @@ h6 {
 ──────────────────────────────────────────── */
 p {
   font-size: 1rem;
-  line-height: 1.4;    margin-bottom: 0.5em;
+  line-height: 1.4;
+  margin-bottom: 0.5em;
 }
 
 a {
@@ -98,201 +98,174 @@ blockquote {
   color: var(--color-blockquote);
 }
 
-/* ────────────────────────────────────────────
-   5. 반응형 조정 (선택 사항)
-──────────────────────────────────────────── */
-@media screen and (max-width: 840px) {
-  h1 { font-size: 1.4rem;  }
-  h2 { font-size: 1.25rem; }
-  h3 { font-size: 1.15rem;  }
-  h4 { font-size: 1rem;  }
-  h6 { font-size: 0.6rem;  }
-  p  { font-size: 0.9rem;  }
+/* 기본 body / main / header */
+body { 
+  margin: 0; 
+  font-family: 'Arial', sans-serif;  
+  overflow-x: hidden;
+}
+main {
+  overflow-x: hidden;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 60px 1rem 1rem;
 }
 
-
-
-
-
-
-    /* 기본 스타일 */
-    body { 
-      margin: 0; 
-      font-family: 'Arial', sans-serif;  
-      overflow-x: hidden;
-    }
-    main {
-       overflow-x: hidden;
-       max-width: 1024px;
-       margin: 0 auto;
-       padding: 60px 1rem 1rem;
-       }  /* 위 60px, 왼/오 1rem, 아래 1rem */
-
 body.home main {
-      /* 전역 max-width 해제 */
-      max-width: none;
-      width: 100%;
-      /* 좌우 마진도 없애서 화면 끝까지 꽉 채움 */
-      margin: 0;
-      overflow-x: hidden;
-      padding: 60px 0 0; 
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  padding: 60px 0 0; 
 } 
 
-    header {
-      background: #000000; 
-      color: #ffffff;
-      padding: 0px 60px;
-      display: flex; 
-      align-items: center;
-      justify-content: flex-start; /*로고옆에 바로 메뉴 붙게*/
-      gap: 20px;      
-      height: 60px;
-      line-height: 60px; 
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-      overflow: visible;
-    }
-    header.scrolled {
-    background: rgba(0, 0, 0, 0.8); /* 검정색, 60% 투명 */
-    backdrop-filter: blur(10px);    /* 흐려지는 효과 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* 살짝 그림자 */
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-    .logo picture, .logo img {
-      display: block;
-      vertical-align: middle;
-    }
-    /* Navigation (PC) */
-    nav {
-      display: flex;
-      gap: 30px;
-    }
-    nav ul {
-      list-style: none;
-      margin: 0;   
-      padding: 0;
-      display: flex;
-      gap: 30px;
-    }
-    nav ul.main-menu > li {
-      position: relative;
-    }
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: bold;
-      padding: 0 15px;
-      line-height: 60px;
-    }
-    nav ul.sub-menu {
-      display: none;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      background: #333;
-      padding: 10px 0;
-      min-width: 160px;
-      z-index: 2000;
-    }
-    nav ul.sub-menu.open {
-      display: block;
-    }
-    nav ul.sub-menu > li {
-      width: 100%;
-      margin: 0;
-    }
-    nav ul.sub-menu a {
-      display: block;
-      padding: 10px 15px;
-      color: #fff;
-      font-weight: normal;
-      line-height: 1.2;
-      white-space: nowrap;
-    }
-    /* PC용 hover (원하는 경우) */
-    nav ul.main-menu > li:hover > ul.sub-menu {
-      display: block;
-    }
-    nav ul.sub-menu > li:hover {
-      background: #444;
-    }
-    
-    /* Hamburger 버튼 (모바일 전용, 기본 숨김) */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: #fff;
-      margin: 3px 0;
-      transition: all 0.3s ease;
-    }
+header {
+  background: #000000; 
+  color: #ffffff;
+  padding: 0px 60px;
+  display: flex; 
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;      
+  height: 60px;
+  line-height: 60px; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  overflow: visible;
+}
+header.scrolled {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
 
-    /* youtube media 등 기타 스타일 */
-    .youtube-section {  display: flex;  max-width: 1500px;  margin: 0 auto;  gap: 20px;}
-    .main-video {  flex: 3.2;}
-    .main-video img {  width: 100%;  height: auto;  display: block;}
-    .side-videos {  flex: 1;  display: flex;  flex-direction: column;  gap: 15px;}
-    .side-videos img {  width: 100%;  height: auto;  display: block;}
+.logo {
+  display: flex;
+  align-items: center;
+}
+.logo picture, .logo img {
+  display: block;
+  vertical-align: middle;
+}
 
+/* Navigation (PC) */
+nav {
+  display: flex;
+  gap: 30px;
+}
+nav ul {
+  list-style: none;
+  margin: 0;   
+  padding: 0;
+  display: flex;
+  gap: 30px;
+}
+nav ul.main-menu > li {
+  position: relative;
+}
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  padding: 0 15px;
+  line-height: 60px;
+}
+nav ul.sub-menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  background: #333;
+  padding: 10px 0;
+  min-width: 160px;
+  z-index: 2000;
+}
+nav ul.sub-menu.open {
+  display: block;
+}
+nav ul.sub-menu > li {
+  width: 100%;
+  margin: 0;
+}
+nav ul.sub-menu a {
+  display: block;
+  padding: 10px 15px;
+  color: #fff;
+  font-weight: normal;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+nav ul.main-menu > li:hover > ul.sub-menu {
+  display: block;
+}
+nav ul.sub-menu > li:hover {
+  background: #444;
+}
 
-    /* Banner, Sections 등 기타 스타일 */
-    .banner {
-      width: 100%;
-      height: auto;
-      position: relative;
-     
-    }
-    .banner img {
-      width: 100%;
-      height: auto;
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition: opacity 1s ease-in-out;
+/* Hamburger 버튼 (PC 기본 숨김) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+}
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+}
 
+/* 기타 미디어 / 레이아웃 */
+.youtube-section { display: flex; max-width: 1500px; margin: 0 auto; gap: 20px;}
+.main-video { flex: 3.2;}
+.main-video img { width: 100%; height: auto; display: block;}
+.side-videos { flex: 1; display: flex; flex-direction: column; gap: 15px;}
+.side-videos img { width: 100%; height: auto; display: block;}
 
-    }
-    .sections {
-      display: flex;
-      justify-content: space-around;
-      padding: 40px 20px;
-      background: #f9f9f9;
-    }
-    .section-box {
-      text-align: center;
-      width: 30%;
-    }
-    .media { margin-top: 50px; }
-    footer {
-      background: #333;
-      color: #fff;
-      padding: 30px 20px;
-      text-align: center;
-    }
-    /* (나머지 schedule, partner, map-section 등 동일) */
-     .schedule { background: #f0f0f0; }
-     .map-section {  padding: 40px 20px;
-     background: #f0f0f0;}
-    .partner {  margin-top: 50px;  width:100%;}
-
+.banner {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+.banner img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 1s ease-in-out;
+}
+.sections {
+  display: flex;
+  justify-content: space-around;
+  padding: 40px 20px;
+  background: #f9f9f9;
+}
+.section-box {
+  text-align: center;
+  width: 30%;
+}
+.media { margin-top: 50px; }
+footer {
+  background: #333;
+  color: #fff;
+  padding: 30px 20px;
+  text-align: center;
+}
+.schedule { background: #f0f0f0; }
+.map-section { padding: 40px 20px; background: #f0f0f0;}
+.partner { margin-top: 50px; width:100%;}
 
 .video-container {
   position: relative;
   width: 100%;
-  /* 16:9 비율을 위해 padding-bottom: 56.25% */
   padding-bottom: 56.25%;
   margin-bottom: 1rem;
 }
@@ -305,22 +278,19 @@ body.home main {
 }
 .contact-info .phone {
   display: inline;
-  margin-left: 0.5rem;  /* 파이프 기호와 약간의 간격 */
+  margin-left: 0.5rem;
 }
 
-
-/*기타 스타일*/ 
-
-  hr {
-  border: none;               /* 기존 테두리 제거 */
-  border-bottom: 1px solid #666666;  /* 아래에만 1px 선 */
-  margin: 1rem 0;             /* 위/아래 간격 조절 */
+hr {
+  border: none;
+  border-bottom: 1px solid #666666;
+  margin: 1rem 0;
 }
 hr.dotted-line {
-  border: none;               /* 기본 테두리 제거 */
-  border-top: 1px dotted #d3d3d3; /* 위쪽에 1px 점선 */
-  margin: 1rem 0;             /* 위/아래 여백 조절 */
-  height: 0;                  /* 높이 없애기 */
+  border: none;
+  border-top: 1px dotted #d3d3d3;
+  margin: 1rem 0;
+  height: 0;
 }
 
 .img-100 {
@@ -328,18 +298,17 @@ hr.dotted-line {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 1rem 0; /* 위아래 여백도 살짝 주기 */
+  margin: 1rem 0;
 }
 figure {
   margin: 0;
 }
 
-/*title 관련*/
 .title {
   position: relative;
   background-size: cover;
   background-position: center;
-  height: 250px; /* 필요에 따라 조절 */
+  height: 250px;
 }
 
 .title-text {
@@ -355,67 +324,42 @@ figure {
   text-align: center;
 }
 
-/* 사이드 드로어 우상단 X 버튼 */
-.drawer-close {
-    display: none;
-   position: absolute !important; 
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    color: #fff;
-    font-size: 28px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 10 !important; /* nav-container(1500)보다 위에 배치 */
-  }
-
 footer a[href^="tel:"] {
   color: #fff !important;
   text-decoration: none;
 }
-/*오시는길 관련 스타일*/
+
 .clinic-info {
   max-width: 1024px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-/* wayto 스타일 */
 .info-block {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;            /* 헤더와 본문 사이 간격 */
-  margin-bottom: 2rem;  /* 블록 간 세로 간격 */
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 .info-header {
-  flex: 0 0 120px;      /* 헤더(아이콘+제목) 고정폭 */
+  flex: 0 0 120px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;    /* 아이콘⇄타이틀 사이 여백 (원하는 값으로 조정) */
-}
+  gap: 0.5rem;
 }
 .info-icon {
   font-size: 1.25rem;
   margin-right: 0.5rem;
-  color:  #eee !important;
+  color: #eee !important;
 }
 .info-details {
-  flex: 1;              /* 나머지 공간 차지 */
+  flex: 1;
 }
 .info-details p {
   margin: 0.25rem 0;
   line-height: var(--line-height-base);
 }
-/* 구분선 */
-hr.dotted-line {
-  border: none;
-  border-top: 1px dotted #666;
-  margin: 1rem 0 2rem;
-}
 
-
-/* footer floaiting action*/
 .fixed-actions {
   position: fixed;
   bottom: 1.5rem;
@@ -431,7 +375,7 @@ hr.dotted-line {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0052d4, #4364f7); /* 예시 그라데이션 */
+  background: linear-gradient(135deg, #0052d4, #4364f7);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
@@ -445,8 +389,7 @@ hr.dotted-line {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.24);
 }
 
-.fab svg, /* SVG 아이콘일 때 */
-.fab i {  /* 폰트 아이콘일 때 */
+.fab svg, .fab i {
   width: 24px;
   height: 24px;
   fill: #fff;
@@ -454,98 +397,115 @@ hr.dotted-line {
   color: #fff;
 }
 
-/* 초기 상태: 투명하고 살짝 아래로 내려가 있음 */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.9s ease-out, transform 0.9s ease-out;
 }
-/* 화면에 보일 때 추가될 클래스 */
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
+/* ────────────────────────────────────────────
+   5. 모바일 반응형 스타일 (840px 이하)
+──────────────────────────────────────────── */
+@media screen and (max-width: 840px) {
+  h1 { font-size: 1.4rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.15rem; }
+  h4 { font-size: 1rem; }
+  h6 { font-size: 0.6rem; }
+  p  { font-size: 0.9rem; }
 
-
-    /* 모바일 반응형 스타일 */
-    @media screen and (max-width: 840px) {
-
-
- main {
+  main {
     padding: 40px 0.5rem 0.5rem;
   }     
 
- header {
-        padding: 0px 20px;
-        height: 60px;
-        line-height: normal;
-        overflow: visible; 
-      }
-      /* 햄버거 버튼 표시 */
-      .hamburger {
-        display: flex;
-       flex-direction: column;
-       justify-content: center;
-       cursor: pointer;
-        margin-left: auto;   /* 왼쪽 여백을 자동으로 채워서 오른쪽 정렬 */
-        margin-right: 50px;  /* 오른쪽 여백을 50px 줘서 양쪽 간격 조절 */
-      }
-
- .contact-info .phone {
-    display: block;
-    margin: 0.5rem 0 0; /* 위 여백 조절 */
+  header {
+    padding: 0px 20px;
+    height: 60px;
+    line-height: normal;
+    overflow: visible; 
   }
-  .nav-container.open .drawer-close {
-    display: block;}
 
-      /* 모바일용 사이드 드로어 내비게이션 */
- .nav-container {
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  .contact-info .phone {
+    display: block;
+    margin: 0.5rem 0 0;
+  }
+
+  /* 모바일 사이드 드로어 메뉴 */
+  .nav-container {
     position: fixed;
     top: 0;
-    right: -220px;          /* 초기 숨김 (너비 + 여유분) */
-    width: 220px;
-    height: 100vh;           /* 전체 화면 높이 고정 */
+    right: -240px;            /* 오른쪽 슬라이드 숨김 */
+    width: 240px;             /* 고정 너비 지정 */
+    height: 100vh;
     background: #000;
     transition: right 0.3s ease;
     z-index: 1500;
-    
-    /* [핵심] 전체 스크롤을 끄고, flex 구조로 내부 레이아웃 분리 */
-    overflow: hidden;        
-    display: flex;
-    flex-direction: column;
-    padding-top: 0;          /* 기존 padding-top 제거 */
+    overflow: hidden;         /* 전체 스크롤 차단 */
+    box-shadow: -2px 0 8px rgba(0,0,0,0.5);
   }
-.nav-container.open {
-  right: 0;  /* 열릴 때 화면 안으로 슬라이드 */
-}
 
-.nav-container.open .drawer-close {
-    display: block;
+  .nav-container.open {
+    right: 0;                /* 열릴 때 활성화 */
   }
+
+  /* 닫기 버튼 (드로어 우상단 고정) */
+  .drawer-close {
+    display: block !important;
+    position: absolute !important;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1600 !important;
+    padding: 5px;
+  }
+
+  /* 실제 메뉴 항목 스크롤 영역 */
   .nav-container nav {
-    margin-top: 60px;        /* 상단 X 버튼이 들어갈 공간 확보 */
-    overflow-y: auto;        /* 메뉴 내용이 길 때 '여기만' 스크롤 생성 */
-    height: calc(100vh - 60px); /* 스크롤 높이 제한 */
-    width: 100%;
+    margin-top: 55px;
+    height: calc(100vh - 55px);
+    overflow-y: auto;        /* 목록만 독자 스크롤 */
+    width: 240px;            /* 폭 고정으로 스크롤바에 의한 찌그러짐 방지 */
+    box-sizing: border-box;
   }
-      /* 모바일 내비게이션 내부 메뉴: 세로 정렬 */
-    nav ul {
+
+  nav ul {
     flex-direction: column;
     padding: 0;
     margin: 0;
+    gap: 0;
   }
+
   nav ul li {
     display: block;
+    width: 100%;
   }
 
   nav a {
     margin: 0;
-    font-size: 16px;
+    font-size: 15px;
     padding: 12px 20px;
     border-bottom: 1px solid #333;
     line-height: normal;
     display: block;
+    box-sizing: border-box;
   }
 
   nav ul.sub-menu {
@@ -553,75 +513,71 @@ hr.dotted-line {
     top: 0;
     left: 0;
     width: 100%;
-    background: #111;        /* 서브메뉴 구분용 진한 배경 */
+    background: #111;
   }
 
-
-/*wayto 서식 mobile*/
+  /* wayto 서식 mobile */
   .info-block {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;       /* 블록 간 간격 줄이기 */
+    gap: 0.5rem;
   }
-  /* 헤더(아이콘+제목)는 왼쪽에 고정하지 않고 상단에만 표시 */
   .info-header {
     flex: none;
     margin-bottom: 0.5rem;
-     gap: 0.5rem;    
+    gap: 0.5rem;
   }
-  /* 상세 내용에는 여백 조금씩 추가 */
   .info-details p {
-    margin-left: 1.75rem;  /* 아이콘 정도 들여쓰기 */
+    margin-left: 1.75rem;
   }
 
-/*title 관련*/
-.title {
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  height: 120px; /* 필요에 따라 조절 */
-}
+  /* title 관련 */
+  .title {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 120px;
+  }
 
-.title-text {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 0.75rem 1.5rem;
-  border: 1px solid rgba(255,255,255,0.8);
-  color: #fff;
-  border-radius: 4px;
-  font-size: var(--font-size-h2);
-  font-weight: bold;
-  text-align: center;
-}
+  .title-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.8);
+    color: #fff;
+    border-radius: 4px;
+    font-size: var(--font-size-h2);
+    font-weight: bold;
+    text-align: center;
+  }
 
   .youtube-section {
     display: flex;
-    flex-direction: column;  /* 메인 아래로 내려오도록 */
+    flex-direction: column;
     gap: 15px;
   }
 
   .main-video,
   .side-videos {
     width: 100%;
-    flex: none;              /* PC용 flex 설정 해제 */
+    flex: none;
   }
 
   .side-videos {
-    display: flex;           /* 가로 정렬 */
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 8px;                /* 썸네일 간 간격 */
+    gap: 8px;
   }
 
-  /* 세 개가 균등하게 퍼지도록 각 링크에 비율 지정 */
   .side-videos a {
-    flex: 1;                 /* 3개가 동일 비율로 공간 차지 */
-    text-align: center;      /* 캡션 등이 있으면 가운데 정렬 */
+    flex: 1;
+    text-align: center;
   }
 
   .side-videos a img {
-    width: 100%;             /* a 요소 너비에 맞춰 꽉 채우기 */
+    width: 100%;
     height: auto;
     display: block;
   }
