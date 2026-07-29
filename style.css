@@ -467,100 +467,56 @@ hr.dotted-line {
 
 
 
- /* 모바일 반응형 스타일 */
-@media screen and (max-width: 840px) {
+    /* 모바일 반응형 스타일 */
+    @media screen and (max-width: 840px) {
 
-  main {
+
+ main {
     padding: 40px 0.5rem 0.5rem;
   }     
 
-  header {
-    padding: 0 20px;
-    height: 60px;
-    line-height: normal;
-    overflow: visible; 
-    display: flex;
-    justify-content: space-between; /* 로고와 햄버거를 양끝으로 정렬 */
-    align-items: center;
-  }
+ header {
+        padding: 0px 20px;
+        height: 60px;
+        line-height: normal;
+        overflow: visible; 
+      }
+      /* 햄버거 버튼 표시 */
+      .hamburger {
+        display: flex;
+       flex-direction: column;
+       justify-content: center;
+       cursor: pointer;
+        margin-left: auto;   /* 왼쪽 여백을 자동으로 채워서 오른쪽 정렬 */
+        margin-right: 50px;  /* 오른쪽 여백을 50px 줘서 양쪽 간격 조절 */
+      }
 
-  /* 햄버거 버튼 */
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    cursor: pointer;
-    margin: 0; /* margin-left, right 제거하고 header의 flex 정렬 사용 */
-  }
-
-  .contact-info .phone {
+ .contact-info .phone {
     display: block;
-    margin: 0.5rem 0 0;
+    margin: 0.5rem 0 0; /* 위 여백 조절 */
   }
+  .nav-container.open .drawer-close {
+    display: block;}
 
-  /* ───────────────────────────────────────────
-     1. 드로어 외곽 틀 (고정 영역: 스크롤 금지)
-  ─────────────────────────────────────────── */
+      /* 모바일용 사이드 드로어 내비게이션 */
   .nav-container {
-    position: fixed;
-    top: 0;
-    right: -240px;          /* 폭(240px)과 동일하게 음수 지정 */
-    width: 240px;           /* 200px에서 240px로 늘려 스크롤바 압박 완화 */
-    height: 100vh;
-    height: 100dvh;         /* 모바일 주소창 높이 변화 덜컥거림 방지 */
-    background: #000;
-    transition: right 0.3s ease;
-    z-index: 1500;
-    padding-top: 0;         /* 패딩 제거 (내부 nav에서 제어) */
-    overflow: hidden;       /* ★ 중요: 틀 자체에는 스크롤을 절대 생성하지 않음 */
-    box-sizing: border-box;
-  }
-
-  .nav-container.open {
-    right: 0;               /* 열릴 때 완전히 0 위치에 고정 */
-  }
-
-  /* ───────────────────────────────────────────
-     2. X (닫기) 버튼 - 스크롤되어도 상단 고정
-  ─────────────────────────────────────────── */
-  .drawer-close {
-    display: block !important;
-    position: absolute !important;
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    color: #fff;
-    font-size: 28px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 1600 !important; /* 메뉴 위에 배치 */
-  }
-
-  /* ───────────────────────────────────────────
-     3. 메뉴 목록 영역 (이 안에서만 스크롤 발생)
-  ─────────────────────────────────────────── */
-  .nav-container nav {
-    margin-top: 60px;       /* X 버튼 아래부터 메뉴 시작 */
-    height: calc(100vh - 60px);
-    height: calc(100dvh - 60px);
-    overflow-y: auto;      /* ★ 메뉴 항목들만 독자적으로 스크롤 */
-    -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* (참고) 스크롤바가 생겨도 폭이 좁아지지 않도록 안쪽 여백 유지 */
-  
-
-
-
+  position: fixed;
+  top: 0;
+  right: -220px; /* 초기 숨김 */
+  width: 220px;
+  height: 100vh;  /* 화면 전체 높이 */
+  background: #000; /* 검은색 배경 */
+  overflow-y: auto; /* 드로어 내부 스크롤 */
+  transition: right 0.3s ease;
+  z-index: 1500;
+  padding-top: 60px; 
+}
+.nav-container.open {
+  right: 0;  /* 열릴 때 화면 안으로 슬라이드 */
+}
       /* 모바일 내비게이션 내부 메뉴: 세로 정렬 */
       nav ul {
         flex-direction: column;
-     padding: 0 0 40px 0;
-    margin: 0;
-    list-style: none;
       }
       nav ul li {
         display: block;
@@ -580,7 +536,7 @@ hr.dotted-line {
         width: 100%;
 
       }
-    }
+
 
 /*wayto 서식 mobile*/
   .info-block {
