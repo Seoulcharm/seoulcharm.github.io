@@ -357,17 +357,18 @@ figure {
 
 /* 사이드 드로어 우상단 X 버튼 */
 .drawer-close {
-  display: none;
-  position: fixed !important;
-  top: 16px;
-  right: 16px;
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 28px;
-  cursor: pointer;
-  z-index: 1001 !important;
-}
+    display: none;
+    position: fixed !important;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1600 !important; /* nav-container(1500)보다 위에 배치 */
+  }
 
 footer a[href^="tel:"] {
   color: #fff !important;
@@ -499,43 +500,61 @@ hr.dotted-line {
     display: block;}
 
       /* 모바일용 사이드 드로어 내비게이션 */
-  .nav-container {
-  position: fixed;
-  top: 0;
-  right: -200px; /* 초기 숨김 */
-  width: 200px;
-  height: 100vh;  /* 화면 전체 높이 */
-  background: #000; /* 검은색 배경 */
-  overflow-y: auto; /* 드로어 내부 스크롤 */
-  transition: right 0.3s ease;
-  z-index: 1500;
-  padding-top: 60px; 
-}
+ .nav-container {
+    position: fixed;
+    top: 0;
+    right: -220px;          /* 초기 숨김 (너비 + 여유분) */
+    width: 220px;
+    height: 100vh;           /* 전체 화면 높이 고정 */
+    background: #000;
+    transition: right 0.3s ease;
+    z-index: 1500;
+    
+    /* [핵심] 전체 스크롤을 끄고, flex 구조로 내부 레이아웃 분리 */
+    overflow: hidden;        
+    display: flex;
+    flex-direction: column;
+    padding-top: 0;          /* 기존 padding-top 제거 */
+  }
 .nav-container.open {
   right: 0;  /* 열릴 때 화면 안으로 슬라이드 */
 }
-      /* 모바일 내비게이션 내부 메뉴: 세로 정렬 */
-      nav ul {
-        flex-direction: column;
-      }
-      nav ul li {
-        display: block;
-      }
-      nav a {
-        margin: 0;
-        font-size: 16px;
-        padding: 10px 5px;
-        border-bottom: 1px solid #444;
-        line-height: normal;
-      }
-      /* 모바일에서는 서브메뉴는 상대 위치로 */
-      nav ul.sub-menu {
-        position: relative;
-        top: 0;
-        left: 0;
-        width: 100%;
 
-      }
+.nav-container.open .drawer-close {
+    display: block;
+  }
+  .nav-container nav {
+    margin-top: 60px;        /* 상단 X 버튼이 들어갈 공간 확보 */
+    overflow-y: auto;        /* 메뉴 내용이 길 때 '여기만' 스크롤 생성 */
+    height: calc(100vh - 60px); /* 스크롤 높이 제한 */
+    width: 100%;
+  }
+      /* 모바일 내비게이션 내부 메뉴: 세로 정렬 */
+    nav ul {
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+  nav ul li {
+    display: block;
+  }
+
+  nav a {
+    margin: 0;
+    font-size: 16px;
+    padding: 12px 20px;
+    border-bottom: 1px solid #333;
+    line-height: normal;
+    display: block;
+  }
+
+  nav ul.sub-menu {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #111;        /* 서브메뉴 구분용 진한 배경 */
+  }
 
 
 /*wayto 서식 mobile*/
