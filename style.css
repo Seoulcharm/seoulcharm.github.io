@@ -502,8 +502,8 @@ hr.dotted-line {
   .nav-container {
   position: fixed;
   top: 0;
-  right: -220px; /* 초기 숨김 */
-  width: 220px;
+  right: -200px; /* 초기 숨김 */
+  width: 200px;
   height: 100vh;  /* 화면 전체 높이 */
   background: #000; /* 검은색 배경 */
   overflow-y: auto; /* 드로어 내부 스크롤 */
