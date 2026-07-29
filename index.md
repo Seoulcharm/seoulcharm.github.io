@@ -122,3 +122,28 @@ home: true
     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3262.8760975506643!2d129.0901153!3d35.1347654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3568edcf85a63f1f%3A0xbe5db8f41f832f28!2z7ISc7Jq47LC47KCV7ZiV7Jm46rO87J2Y7JuQ!5e0!3m2!1sko!2skr!4v1744176610930!5m2!1sko!2skr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="부산 남구 대연동 서울참정형외과의원 구글 지도"></iframe>
   </center>
 </div>
+<!-- FAQ 섹션 시작 -->
+<section id="faq" style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+  <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; color: #1a202c;">
+    자주 묻는 질문 (FAQ)
+  </h2>
+  
+  <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+    <h3 style="font-size: 1.1rem; font-weight: bold; color: #0284c7; margin-bottom: 8px;">
+      Q. 대연동/대연역에서 야간진료하는 정형외과가 있나요?
+    </h3>
+    <p style="font-size: 1rem; color: #334155; line-height: 1.6; margin: 0;">
+      네, 대연역 5번 출구(못골역 인근)에 위치한 서울참정형외과는 매주 화요일과 목요일 저녁 8시까지 야간진료를 시행하고 있습니다.
+    </p>
+  </div>
+
+  <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+    <h3 style="font-size: 1.1rem; font-weight: bold; color: #0284c7; margin-bottom: 8px;">
+      Q. 못골역이나 대연역에서 서울참정형외과에 어떻게 오나요?
+    </h3>
+    <p style="font-size: 1rem; color: #334155; line-height: 1.6; margin: 0;">
+      부산 지하철 2호선 대연역 5번 출구 바로 앞에 위치해 있으며, 못골역에서도 도보 이동 및 대중교통 이용이 편리합니다.
+    </p>
+  </div>
+</section>
+<!-- FAQ 섹션 끝 -->
