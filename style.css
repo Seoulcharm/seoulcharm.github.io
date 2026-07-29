@@ -435,7 +435,7 @@ footer a[href^="tel:"] {
     justify-content: center;
     cursor: pointer;
     margin-left: auto;
-    margin-right: 10px;
+    margin-right: 20px;
   }
 
   .contact-info .phone {
