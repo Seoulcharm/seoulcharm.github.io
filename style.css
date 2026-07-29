@@ -358,7 +358,7 @@ figure {
 /* 사이드 드로어 우상단 X 버튼 */
 .drawer-close {
     display: none;
-    position: fixed !important;
+   position: absolute !important; 
     top: 15px;
     right: 15px;
     background: transparent;
@@ -367,7 +367,7 @@ figure {
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
-    z-index: 1600 !important; /* nav-container(1500)보다 위에 배치 */
+    z-index: 10 !important; /* nav-container(1500)보다 위에 배치 */
   }
 
 footer a[href^="tel:"] {
