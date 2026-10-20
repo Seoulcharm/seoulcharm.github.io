@@ -126,20 +126,47 @@ title: 대연동 서울참정ㅎ여외과 블로그 소식
 </style>
 
 <script>
- 
 document.addEventListener("DOMContentLoaded", function () {
   const rssUrl = "https://rss.blog.naver.com/seoulcharm1.xml";
   const apiUrl =
-    `https://rssjson.vercel.app/api?url=${encodeURIComponent(rssUrl)}`;
+    `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
   const defaultImg = '{{ site.baseurl }}/img/logo.jpg';
   const container = document.getElementById("blog-posts");
 
-  // 대체 서비스는 각 항목을 배열 형태로 반환하므로
-  // 첫 번째 값을 안전하게 가져옵니다.
-  function getValue(value) {
-    if (Array.isArray(value)) return value[0] || "";
-    return value || "";
+  function getText(value) {
+    if (Array.isArray(value)) return getText(value[0] || "");
+    if (value == null) return "";
+    if (typeof value === "object") {
+      return getText(value["#text"] || value._ || "");
+    }
+    return String(value);
+  }
+
+  function getThumbnail(item) {
+    if (item.thumbnail) return item.thumbnail;
+
+    const description = getText(item.description || item.content || "");
+    const match = description.match(
+      /<img\b[^>]*\bsrc=["']([^"']+)["']/i
+    );
+
+    return match
+      ? match[1].replace(/&amp;/g, "&")
+      : defaultImg;
+  }
+
+  function formatDate(value) {
+    if (!value) return "";
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0")
+    ].join("-");
   }
 
   fetch(apiUrl)
@@ -150,8 +177,11 @@ document.addEventListener("DOMContentLoaded", function () {
       return response.json();
     })
     .then(data => {
-      const channel = data?.rss?.channel?.[0];
-      const items = channel?.item || [];
+      if (data.status !== "ok") {
+        throw new Error(data.message || "RSS를 가져오지 못했습니다.");
+      }
+
+      const items = data.items || [];
 
       if (!items.length) {
         throw new Error("RSS 게시글이 없습니다.");
@@ -160,35 +190,18 @@ document.addEventListener("DOMContentLoaded", function () {
       container.innerHTML = "";
 
       items.slice(0, 9).forEach(item => {
-        const title = getValue(item.title);
-        const link = getValue(item.link);
-        const description = getValue(item.description);
-        const pubDate = getValue(item.pubDate);
-
-        // 게시글 본문에서 첫 번째 이미지 주소를 추출합니다.
-        const imgMatch = description.match(
-          /<img\b[^>]*\bsrc=["']([^"']+)["']/i
-        );
-
-        const thumbnailUrl = imgMatch
-          ? imgMatch[1].replace(/&amp;/g, "&")
-          : defaultImg;
-
-        // 날짜를 YYYY-MM-DD 형식으로 표시합니다.
-        const parsedDate = new Date(pubDate);
-        const formattedDate = Number.isNaN(parsedDate.getTime())
-          ? ""
-          : [
-              parsedDate.getFullYear(),
-              String(parsedDate.getMonth() + 1).padStart(2, "0"),
-              String(parsedDate.getDate()).padStart(2, "0")
-            ].join("-");
+        const title = getText(item.title) || "제목 없음";
+        const link = getText(item.link);
+        const thumbnailUrl = getThumbnail(item);
+        const formattedDate = formatDate(item.pubDate);
 
         const card = document.createElement("div");
         card.className = "blog-card";
 
         const anchor = document.createElement("a");
-        anchor.href = link;
+        anchor.href = link || "https://blog.naver.com/seoulcharm1";
+        anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
 
         const thumbWrapper = document.createElement("div");
         thumbWrapper.className = "thumb-wrapper";
@@ -196,7 +209,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const img = document.createElement("img");
         img.src = thumbnailUrl;
         img.alt = title;
+        img.loading = "lazy";
         img.referrerPolicy = "no-referrer";
+
         img.onerror = function () {
           this.onerror = null;
           this.src = defaultImg;
@@ -216,6 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         content.appendChild(heading);
         content.appendChild(date);
+
         anchor.appendChild(thumbWrapper);
         anchor.appendChild(content);
         card.appendChild(anchor);
@@ -224,9 +240,17 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch(error => {
       console.error("블로그 RSS 불러오기 오류:", error);
-      container.innerHTML =
-        "<p>블로그 소식을 불러오는 중 오류가 발생했습니다.</p>";
+
+      container.innerHTML = `
+        <p>
+          블로그 소식을 불러오지 못했습니다.
+          <a href="https://blog.naver.com/seoulcharm1"
+             target="_blank"
+             rel="noopener noreferrer">
+            서울참정형외과 네이버 블로그 바로가기
+          </a>
+        </p>
+      `;
     });
 });
-
 </script>
