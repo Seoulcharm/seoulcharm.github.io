@@ -1,0 +1,113 @@
+name: Update Naver Blog RSS
+
+on:
+  schedule:
+    - cron: "10 6 * * *"
+      timezone: "Asia/Seoul"
+    - cron: "10 12 * * *"
+      timezone: "Asia/Seoul"
+    - cron: "10 18 * * *"
+      timezone: "Asia/Seoul"
+    - cron: "10 23 * * *"
+      timezone: "Asia/Seoul"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-blog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch Naver RSS and create JSON
+        run: |
+          python - <<'PY'
+          import urllib.request
+          import xml.etree.ElementTree as ET
+          import json
+          import re
+          import os
+          from datetime import datetime, timezone
+
+          RSS_URL = "https://rss.blog.naver.com/seoulcharm1.xml"
+          OUTPUT = "blog/blog.json"
+
+          print("네이버 RSS 가져오는 중...")
+
+          req = urllib.request.Request(
+              RSS_URL,
+              headers={
+                  "User-Agent": "Mozilla/5.0"
+              }
+          )
+
+          with urllib.request.urlopen(req, timeout=30) as response:
+              xml_data = response.read()
+
+          root = ET.fromstring(xml_data)
+
+          items = []
+
+          for item in root.findall(".//item")[:9]:
+              def text(tag):
+                  element = item.find(tag)
+                  return element.text.strip() if element is not None and element.text else ""
+
+              title = text("title")
+              link = text("link")
+              description = text("description")
+              pub_date = text("pubDate")
+
+              thumbnail = ""
+
+              match = re.search(
+                  r'<img[^>]+src=["\']([^"\']+)["\']',
+                  description,
+                  re.IGNORECASE
+              )
+
+              if match:
+                  thumbnail = match.group(1)
+
+              items.append({
+                  "title": title,
+                  "link": link,
+                  "description": description,
+                  "pubDate": pub_date,
+                  "thumbnail": thumbnail
+              })
+
+          if not items:
+              raise RuntimeError("네이버 RSS에서 게시글을 찾지 못했습니다.")
+
+          os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
+
+          data = {
+              "updatedAt": datetime.now(timezone.utc).isoformat(),
+              "items": items
+          }
+
+          with open(OUTPUT, "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+
+          print(f"{len(items)}개의 글을 저장했습니다.")
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add blog/blog.json
+
+          if git diff --cached --quiet; then
+            echo "변경된 내용이 없습니다."
+          else
+            git commit -m "Update Naver blog posts"
+            git push
+          fi
