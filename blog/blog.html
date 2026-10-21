@@ -127,34 +127,9 @@ title: 대연동 서울참정ㅎ여외과 블로그 소식
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const rssUrl = "https://rss.blog.naver.com/seoulcharm1.xml";
-  const apiUrl =
-    `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
-  const defaultImg = '{{ site.baseurl }}/img/logo.jpg';
+  const blogJsonUrl = "{{ site.baseurl }}/blog/blog.json";
+  const defaultImg = "{{ site.baseurl }}/img/logo.jpg";
   const container = document.getElementById("blog-posts");
-
-  function getText(value) {
-    if (Array.isArray(value)) return getText(value[0] || "");
-    if (value == null) return "";
-    if (typeof value === "object") {
-      return getText(value["#text"] || value._ || "");
-    }
-    return String(value);
-  }
-
-  function getThumbnail(item) {
-    if (item.thumbnail) return item.thumbnail;
-
-    const description = getText(item.description || item.content || "");
-    const match = description.match(
-      /<img\b[^>]*\bsrc=["']([^"']+)["']/i
-    );
-
-    return match
-      ? match[1].replace(/&amp;/g, "&")
-      : defaultImg;
-  }
 
   function formatDate(value) {
     if (!value) return "";
@@ -169,37 +144,45 @@ document.addEventListener("DOMContentLoaded", function () {
     ].join("-");
   }
 
-  fetch(apiUrl)
+  function getThumbnail(item) {
+    if (item.thumbnail) return item.thumbnail;
+
+    const description = item.description || "";
+    const match = description.match(
+      /<img\b[^>]*\bsrc=["']([^"']+)["']/i
+    );
+
+    return match
+      ? match[1].replace(/&amp;/g, "&")
+      : defaultImg;
+  }
+
+  fetch(blogJsonUrl + "?v=" + Date.now())
     .then(response => {
       if (!response.ok) {
-        throw new Error(`RSS API 오류: ${response.status}`);
+        throw new Error("blog.json 오류: " + response.status);
       }
       return response.json();
     })
     .then(data => {
-      if (data.status !== "ok") {
-        throw new Error(data.message || "RSS를 가져오지 못했습니다.");
-      }
-
       const items = data.items || [];
 
       if (!items.length) {
-        throw new Error("RSS 게시글이 없습니다.");
+        throw new Error("블로그 게시글이 없습니다.");
       }
 
       container.innerHTML = "";
 
       items.slice(0, 9).forEach(item => {
-        const title = getText(item.title) || "제목 없음";
-        const link = getText(item.link);
+        const title = item.title || "제목 없음";
+        const link = item.link || "https://blog.naver.com/seoulcharm1";
         const thumbnailUrl = getThumbnail(item);
-        const formattedDate = formatDate(item.pubDate);
 
         const card = document.createElement("div");
         card.className = "blog-card";
 
         const anchor = document.createElement("a");
-        anchor.href = link || "https://blog.naver.com/seoulcharm1";
+        anchor.href = link;
         anchor.target = "_blank";
         anchor.rel = "noopener noreferrer";
 
@@ -227,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const date = document.createElement("div");
         date.className = "blog-date";
-        date.textContent = formattedDate;
+        date.textContent = formatDate(item.pubDate);
 
         content.appendChild(heading);
         content.appendChild(date);
@@ -239,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     })
     .catch(error => {
-      console.error("블로그 RSS 불러오기 오류:", error);
+      console.error("블로그 JSON 불러오기 오류:", error);
 
       container.innerHTML = `
         <p>
