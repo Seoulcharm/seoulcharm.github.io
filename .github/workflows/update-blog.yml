@@ -1,3 +1,4 @@
+
 name: Update Naver Blog RSS
 
 on:
@@ -33,57 +34,89 @@ jobs:
           import re
           import os
           from datetime import datetime, timezone
+          from email.utils import parsedate_to_datetime
 
-          RSS_URL = "https://rss.blog.naver.com/seoulcharm1.xml"
-          OUTPUT = "blog/blog.json"
-
-          print("네이버 RSS 가져오는 중...")
-
-          req = urllib.request.Request(
-              RSS_URL,
-              headers={
-                  "User-Agent": "Mozilla/5.0"
+          BLOGS = [
+              {
+                  "name": "서울참정형외과",
+                  "url": "https://rss.blog.naver.com/seoulcharm1.xml"
+              },
+              {
+                  "name": "호호척추관절",
+                  "url": "https://rss.blog.naver.com/hohospine.xml"
               }
-          )
+          ]
 
-          with urllib.request.urlopen(req, timeout=30) as response:
-              xml_data = response.read()
-
-          root = ET.fromstring(xml_data)
-
+          OUTPUT = "blog/blog.json"
           items = []
 
-          for item in root.findall(".//item")[:9]:
-              def text(tag):
-                  element = item.find(tag)
-                  return element.text.strip() if element is not None and element.text else ""
+          def fetch_blog(blog):
+              print(f"{blog['name']} RSS 가져오는 중...")
 
-              title = text("title")
-              link = text("link")
-              description = text("description")
-              pub_date = text("pubDate")
-
-              thumbnail = ""
-
-              match = re.search(
-                  r'<img[^>]+src=["\']([^"\']+)["\']',
-                  description,
-                  re.IGNORECASE
+              req = urllib.request.Request(
+                  blog["url"],
+                  headers={"User-Agent": "Mozilla/5.0"}
               )
 
-              if match:
-                  thumbnail = match.group(1)
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  xml_data = response.read()
 
-              items.append({
-                  "title": title,
-                  "link": link,
-                  "description": description,
-                  "pubDate": pub_date,
-                  "thumbnail": thumbnail
-              })
+              root = ET.fromstring(xml_data)
+              blog_items = []
 
-          if not items:
-              raise RuntimeError("네이버 RSS에서 게시글을 찾지 못했습니다.")
+              for item in root.findall(".//item")[:9]:
+
+                  def text(tag):
+                      element = item.find(tag)
+                      return element.text.strip() if element is not None and element.text else ""
+
+                  title = text("title")
+                  link = text("link")
+                  description = text("description")
+                  pub_date = text("pubDate")
+
+                  thumbnail = ""
+
+                  match = re.search(
+                      r'<img[^>]+src=["\']([^"\']+)["\']',
+                      description,
+                      re.IGNORECASE
+                  )
+
+                  if match:
+                      thumbnail = match.group(1)
+
+                  blog_items.append({
+                      "title": title,
+                      "link": link,
+                      "description": description,
+                      "pubDate": pub_date,
+                      "thumbnail": thumbnail,
+                      "blogName": blog["name"]
+                  })
+
+              if not blog_items:
+                  raise RuntimeError(
+                      f"{blog['name']} RSS에서 게시글을 찾지 못했습니다."
+                  )
+
+              print(f"{blog['name']}: {len(blog_items)}개 수집")
+              return blog_items
+
+          # 두 블로그의 게시글 수집
+          for blog in BLOGS:
+              items.extend(fetch_blog(blog))
+
+          # 게시 날짜를 기준으로 최신순 정렬
+          def sort_date(item):
+              try:
+                  return parsedate_to_datetime(
+                      item["pubDate"]
+                  ).timestamp()
+              except Exception:
+                  return 0
+
+          items.sort(key=sort_date, reverse=True)
 
           os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
 
@@ -95,7 +128,7 @@ jobs:
           with open(OUTPUT, "w", encoding="utf-8") as f:
               json.dump(data, f, ensure_ascii=False, indent=2)
 
-          print(f"{len(items)}개의 글을 저장했습니다.")
+          print(f"총 {len(items)}개의 글을 최신순으로 저장했습니다.")
           PY
 
       - name: Commit and push
@@ -108,6 +141,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "변경된 내용이 없습니다."
           else
-            git commit -m "Update Naver blog posts"
+            git commit -m "Update combined Naver blog posts"
             git push
           fi
