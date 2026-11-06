@@ -170,9 +170,31 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "변경된 내용이 없습니다."
-          else
-            git commit -m "Update combined Naver blog posts"
-
-            git pull --rebase origin main
-            git push origin main
+            exit 0
           fi
+
+          git commit -m "Update combined Naver blog posts"
+
+          # 최신 변경사항을 반영하고 최대 3회 업로드 시도
+          for attempt in 1 2 3; do
+            echo "Push 시도: $attempt / 3"
+
+            git fetch origin main
+
+            if ! git rebase origin/main; then
+              echo "Rebase 충돌 발생"
+              git rebase --abort
+              exit 1
+            fi
+
+            if git push origin HEAD:main; then
+              echo "업로드 성공!"
+              exit 0
+            fi
+
+            echo "Push 실패. 다시 시도합니다."
+            sleep 3
+          done
+
+          echo "3회 시도 후에도 Push 실패"
+          exit 1
