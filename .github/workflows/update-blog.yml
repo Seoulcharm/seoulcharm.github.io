@@ -131,7 +131,7 @@ jobs:
           print(f"총 {len(items)}개의 글을 최신순으로 저장했습니다.")
           PY
 
-            - name: Commit and push
+      - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
