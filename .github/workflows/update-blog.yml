@@ -17,6 +17,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-naver-blog
+  cancel-in-progress: false
+
 jobs:
   update-blog:
     runs-on: ubuntu-latest
@@ -24,6 +28,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Fetch Naver RSS and create JSON
         run: |
@@ -66,14 +72,18 @@ jobs:
 
               for item in root.findall(".//item")[:9]:
 
-                  def text(tag):
+                  def get_text(tag):
                       element = item.find(tag)
-                      return element.text.strip() if element is not None and element.text else ""
+                      return (
+                          element.text.strip()
+                          if element is not None and element.text
+                          else ""
+                      )
 
-                  title = text("title")
-                  link = text("link")
-                  description = text("description")
-                  pub_date = text("pubDate")
+                  title = get_text("title")
+                  link = get_text("link")
+                  description = get_text("description")
+                  pub_date = get_text("pubDate")
 
                   thumbnail = ""
 
@@ -101,23 +111,35 @@ jobs:
                   )
 
               print(f"{blog['name']}: {len(blog_items)}개 수집")
+
               return blog_items
 
           # 두 블로그의 게시글 수집
           for blog in BLOGS:
               items.extend(fetch_blog(blog))
 
-          # 게시 날짜를 기준으로 최신순 정렬
+          # 게시 날짜 파싱
           def sort_date(item):
               try:
-                  return parsedate_to_datetime(
-                      item["pubDate"]
-                  ).timestamp()
+                  date = parsedate_to_datetime(item["pubDate"])
+
+                  if date.tzinfo is None:
+                      date = date.replace(tzinfo=timezone.utc)
+
+                  return date.timestamp()
+
               except Exception:
+                  print(
+                      "날짜 확인 필요:",
+                      item["title"],
+                      item["pubDate"]
+                  )
                   return 0
 
+          # 최신순 정렬
           items.sort(key=sort_date, reverse=True)
 
+          # JSON 저장
           os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
 
           data = {
@@ -129,6 +151,14 @@ jobs:
               json.dump(data, f, ensure_ascii=False, indent=2)
 
           print(f"총 {len(items)}개의 글을 최신순으로 저장했습니다.")
+
+          for item in items:
+              print(
+                  item["pubDate"],
+                  item["blogName"],
+                  item["title"]
+              )
+
           PY
 
       - name: Commit and push
