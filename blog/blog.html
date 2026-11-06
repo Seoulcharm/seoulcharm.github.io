@@ -247,20 +247,22 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
     })
-    .catch(error => {
-      console.error("블로그 JSON 불러오기 오류:", error);
+ .catch(error => {
+  console.error("블로그 JSON 불러오기 오류:", error);
 
-      container.innerHTML = `
-        <p>
-          블로그 소식을 불러오지 못했습니다.
-          <a href="https://blog.naver.com/seoulcharm1"
-             target="_blank"
-             rel="noopener noreferrer">
-            서울참정형외과 네이버 블로그 바로가기
-          </a>
-        </p>
-      `;
-    });
-
+  container.innerHTML = `
+    <p style="color:red; padding:15px;">
+      블로그 불러오기 오류: ${error.message}
+    </p>
+    <p>
+      <a href="https://blog.naver.com/seoulcharm1"
+         target="_blank"
+         rel="noopener noreferrer">
+        서울참정형외과 네이버 블로그 바로가기
+      </a>
+    </p>
+  `;
+});
+  
 });
 </script>
