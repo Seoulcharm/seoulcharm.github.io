@@ -1,255 +1,239 @@
-
----
-layout: default
-title: 대연동 서울참정형외과 블로그 소식
----
-
-<div class="blog-container">
-  <h2>서울참정형외과 최신 블로그 소식</h2>
-  <p class="blog-subtext">
-    서울참정형외과와 호호척추관절의 최신 소식을 확인하실 수 있습니다.
-  </p>
-
-  <div id="blog-posts" class="blog-grid">
-    <p class="loading">소식을 불러오는 중입니다...</p>
-  </div>
-</div>
-
-<style>
-  .blog-container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 0 20px;
-  }
-
-  .blog-subtext {
-    color: #666;
-    margin-bottom: 30px;
-  }
-
-  .blog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 24px;
-  }
-
-  /*
-  @media (max-width: 600px) {
-    .blog-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-  }
-  */
-
-  .blog-card {
-    border: 1px solid #e1e1e1;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #fff;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .blog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  }
-
-  .blog-card a {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .thumb-wrapper {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    background-color: #f5f5f5;
-    position: relative;
-  }
-
-  .thumb-wrapper img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s;
-  }
-
-  .blog-card:hover .thumb-wrapper img {
-    transform: scale(1.05);
-  }
-
-  .card-content {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-  }
-
-  .blog-source {
-    display: inline-block;
-    align-self: flex-start;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #3478a5;
-    background: #edf5fa;
-    padding: 5px 9px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-
-  .blog-card h3 {
-    font-size: 1rem;
-    margin: 0 0 8px 0;
-    line-height: 1.4;
-    color: #333;
-    word-break: keep-all;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .blog-date {
-    font-size: 0.8rem;
-    color: #888;
-    margin-top: auto;
-    padding-top: 10px;
-  }
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const blogJsonUrl = "{{ site.baseurl }}/blog/blog.json";
-  const defaultImg = "{{ site.baseurl }}/img/logo.jpg";
-  const container = document.getElementById("blog-posts");
-
-  function formatDate(value) {
-    if (!value) return "";
-
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return "";
-
-    return [
-      date.getFullYear(),
-      String(date.getMonth() + 1).padStart(2, "0"),
-      String(date.getDate()).padStart(2, "0")
-    ].join("-");
-  }
-
-  function getThumbnail(item) {
-    if (item.thumbnail) return item.thumbnail;
-
-    const description = item.description || "";
-    const match = description.match(
-      /<img\b[^>]*\bsrc=["']([^"']+)["']/i
-    );
-
-    return match
-      ? match[1].replace(/&amp;/g, "&")
-      : defaultImg;
-  }
-
-  fetch(blogJsonUrl + "?v=" + Date.now())
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("blog.json 오류: " + response.status);
-      }
-      return response.json();
-    })
-    .then(data => {
-      const items = data.items || [];
-
-      if (!items.length) {
-        throw new Error("블로그 게시글이 없습니다.");
-      }
-
-      container.innerHTML = "";
-
-      // 최신 게시글 순으로 정렬한 뒤 12개만 표시
-      const latestItems = [...items]
-        .sort((a, b) => {
-          return new Date(b.pubDate).getTime() -
-                 new Date(a.pubDate).getTime();
-        })
-        .slice(0, 12);
-
-      latestItems.forEach(item => {
-        const title = item.title || "제목 없음";
-        const link = item.link || "https://blog.naver.com/seoulcharm1";
-        const thumbnailUrl = getThumbnail(item);
-
-        const card = document.createElement("div");
-        card.className = "blog-card";
-
-        const anchor = document.createElement("a");
-        anchor.href = link;
-        anchor.target = "_blank";
-        anchor.rel = "noopener noreferrer";
-
-        const thumbWrapper = document.createElement("div");
-        thumbWrapper.className = "thumb-wrapper";
-
-        const img = document.createElement("img");
-        img.src = thumbnailUrl;
-        img.alt = title;
-        img.loading = "lazy";
-        img.referrerPolicy = "no-referrer";
-
-        img.onerror = function () {
-          this.onerror = null;
-          this.src = defaultImg;
-        };
-
-        thumbWrapper.appendChild(img);
-
-        const content = document.createElement("div");
-        content.className = "card-content";
-
-        // 블로그 출처 표시
-        const source = document.createElement("span");
-        source.className = "blog-source";
-        source.textContent = item.blogName || "서울참정형외과";
-
-        const heading = document.createElement("h3");
-        heading.textContent = title;
-
-        const date = document.createElement("div");
-        date.className = "blog-date";
-        date.textContent = formatDate(item.pubDate);
-
-        content.appendChild(source);
-        content.appendChild(heading);
-        content.appendChild(date);
-
-        anchor.appendChild(thumbWrapper);
-        anchor.appendChild(content);
-        card.appendChild(anchor);
-        container.appendChild(card);
-      });
-    })
-    .catch(error => {
-      console.error("블로그 JSON 불러오기 오류:", error);
-
-      container.innerHTML = `
-        <p>
-          블로그 소식을 불러오지 못했습니다.
-          <a href="https://blog.naver.com/seoulcharm1"
-             target="_blank"
-             rel="noopener noreferrer">
-            서울참정형외과 네이버 블로그 바로가기
-          </a>
-        </p>
-      `;
-    });
-});
-</script>
+\---\
+layout: default\
+title: 대연동 서울참정형외과 블로그 소식\
+\---\
+\
+\<div class="blog-container">\
+&#x20; \<h2>서울참정형외과 최신 블로그 소식\</h2>\
+&#x20; \<p class="blog-subtext">서울참정형외과 네이버 블로그의 최신 소식을 확인하실 수 있습니다.\</p>\
+&#x20; \
+&#x20; \<!-- 글 목록이 로딩되어 들어갈 영역 -->\
+&#x20; \<div id="blog-posts" class="blog-grid">\
+&#x20;   \<p class="loading">소식을 불러오는 중입니다...\</p>\
+&#x20; \</div>\
+\</div>\
+\
+\<style>\
+&#x20; .blog-container {\
+&#x20;   max-width: 1000px;\
+&#x20;   margin: 40px auto;\
+&#x20;   padding: 0 20px;\
+&#x20; }\
+&#x20; .blog-subtext {\
+&#x20;   color: #666;\
+&#x20;   margin-bottom: 30px;\
+&#x20; }\
+&#x20; .blog-grid {\
+&#x20;   display: grid;\
+&#x20;   /\* 모바일에서는 2줄, PC에서는 더 많이 보이도록 반응형 조절 \*/\
+&#x20;   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));\
+&#x20;   gap: 24px;\
+&#x20; }\
+&#x20; \
+&#x20; /\* 반응형 추가: 모바일 등 작은 화면에서는 2줄로 고정하고 싶다면 아래 주석 제거 \*/\
+&#x20; /\*\
+&#x20; @media (max-width: 600px) {\
+&#x20;   .blog-grid {\
+&#x20;     grid-template-columns: repeat(2, 1fr);\
+&#x20;     gap: 15px;\
+&#x20;   }\
+&#x20; }\
+&#x20; \*/\
+\
+&#x20; .blog-card {\
+&#x20;   border: 1px solid #e1e1e1;\
+&#x20;   border-radius: 12px;\
+&#x20;   overflow: hidden;\
+&#x20;   background: #fff;\
+&#x20;   transition: transform 0.2s, box-shadow 0.2s;\
+&#x20;   display: flex;\
+&#x20;   flex-direction: column;\
+&#x20; }\
+&#x20; .blog-card:hover {\
+&#x20;   transform: translateY(-4px);\
+&#x20;   box-shadow: 0 8px 20px rgba(0,0,0,0.1);\
+&#x20; }\
+&#x20; .blog-card a {\
+&#x20;   text-decoration: none;\
+&#x20;   color: inherit;\
+&#x20;   display: flex;\
+&#x20;   flex-direction: column;\
+&#x20;   height: 100%;\
+&#x20; }\
+&#x20; \
+&#x20; /\* [수정 포인트] 썸네일 이미지 영역을 정사각형(1:1)으로 고정 \*/\
+&#x20; .thumb-wrapper {\
+&#x20;   width: 100%;\
+&#x20;   /\* aspect-ratio를 지원하는 최신 브라우저용 \*/\
+&#x20;   aspect-ratio: 1 / 1; \
+&#x20;   overflow: hidden;\
+&#x20;   background-color: #f5f5f5;\
+&#x20;   position: relative;\
+&#x20; }\
+&#x20; \
+&#x20; /\* aspect-ratio 미지원 구형 브라우저 꼼수 (필요시) \*/\
+&#x20; /\*\
+&#x20; .thumb-wrapper::after {\
+&#x20;   content: "";\
+&#x20;   display: block;\
+&#x20;   padding-bottom: 100%;\
+&#x20; }\
+&#x20; \*/\
+\
+&#x20; .thumb-wrapper img {\
+&#x20;   position: absolute;\
+&#x20;   top: 0;\
+&#x20;   left: 0;\
+&#x20;   width: 100%;\
+&#x20;   height: 100%;\
+&#x20;   /\* 이미지가 정사각형 영역을 꽉 채우되 비율을 유지하며 잘림 \*/\
+&#x20;   object-fit: cover; \
+&#x20;   transition: transform 0.3s;\
+&#x20; }\
+&#x20; \
+&#x20; .blog-card:hover .thumb-wrapper img {\
+&#x20;   transform: scale(1.05);\
+&#x20; }\
+&#x20; \
+&#x20; /\* 카드 본문 영역 스타일 \*/\
+&#x20; .card-content {\
+&#x20;   padding: 15px; /\* 정사각형 썸네일에 맞춰 패딩 약간 축소 \*/\
+&#x20;   display: flex;\
+&#x20;   flex-direction: column;\
+&#x20;   justify-content: space-between;\
+&#x20;   flex-grow: 1;\
+&#x20; }\
+&#x20; \
+&#x20; .blog-card h3 {\
+&#x20;   font-size: 1rem; /\* 글자 크기 약간 축소 \*/\
+&#x20;   margin: 0 0 8px 0;\
+&#x20;   line-height: 1.4;\
+&#x20;   color: #333;\
+&#x20;   word-break: keep-all;\
+&#x20;   /\* 제목이 길 경우 2줄까지만 보여주고 말줄임표(...) 처리 \*/\
+&#x20;   display: -webkit-box;\
+&#x20;   -webkit-line-clamp: 2;\
+&#x20;   -webkit-box-orient: vertical;\
+&#x20;   overflow: hidden;\
+&#x20; }\
+&#x20; \
+&#x20; .blog-date {\
+&#x20;   font-size: 0.8rem;\
+&#x20;   color: #888;\
+&#x20;   margin-top: auto; /\* 날짜를 항상 맨 아래로 \*/\
+&#x20;   padding-top: 10px;\
+&#x20; }\
+\</style>\
+\
+\<script>\
+document.addEventListener("DOMContentLoaded", function () {\
+&#x20; const blogJsonUrl = "{{ site.baseurl }}/blog/blog.json";\
+&#x20; const defaultImg = "{{ site.baseurl }}/img/logo.jpg";\
+&#x20; const container = document.getElementById("blog-posts");\
+\
+&#x20; function formatDate(value) {\
+&#x20;   if (!value) return "";\
+\
+&#x20;   const date = new Date(value);\
+&#x20;   if (Number.isNaN(date.getTime())) return "";\
+\
+&#x20;   return [\
+&#x20;     date.getFullYear(),\
+&#x20;     String(date.getMonth() + 1).padStart(2, "0"),\
+&#x20;     String(date.getDate()).padStart(2, "0")\
+&#x20;   ].join("-");\
+&#x20; }\
+\
+&#x20; function getThumbnail(item) {\
+&#x20;   if (item.thumbnail) return item.thumbnail;\
+\
+&#x20;   const description = item.description || "";\
+&#x20;   const match = description.match(\
+&#x20;     /\<img\b[^>]\*\bsrc=["']\([^"']+)["']/i\
+&#x20;   );\
+\
+&#x20;   return match\
+&#x20;     ? match[1].replace(/&amp;/g, "&")\
+&#x20;     : defaultImg;\
+&#x20; }\
+\
+&#x20; fetch(blogJsonUrl + "?v=" + Date.now())\
+&#x20;   .then(response => {\
+&#x20;     if (!response.ok) {\
+&#x20;       throw new Error("blog.json 오류: " + response.status);\
+&#x20;     }\
+&#x20;     return response.json();\
+&#x20;   })\
+&#x20;   .then(data => {\
+&#x20;     const items = data.items || [];\
+\
+&#x20;     if (!items.length) {\
+&#x20;       throw new Error("블로그 게시글이 없습니다.");\
+&#x20;     }\
+\
+&#x20;     container.innerHTML = "";\
+\
+&#x20;     items.slice(0, 9).forEach(item => {\
+&#x20;       const title = item.title || "제목 없음";\
+&#x20;       const link = item.link || "https\://blog.naver.com/seoulcharm1";\
+&#x20;       const thumbnailUrl = getThumbnail(item);\
+\
+&#x20;       const card = document.createElement("div");\
+&#x20;       card.className = "blog-card";\
+\
+&#x20;       const anchor = document.createElement("a");\
+&#x20;       anchor.href = link;\
+&#x20;       anchor.target = "\_blank";\
+&#x20;       anchor.rel = "noopener noreferrer";\
+\
+&#x20;       const thumbWrapper = document.createElement("div");\
+&#x20;       thumbWrapper.className = "thumb-wrapper";\
+\
+&#x20;       const img = document.createElement("img");\
+&#x20;       img.src = thumbnailUrl;\
+&#x20;       img.alt = title;\
+&#x20;       img.loading = "lazy";\
+&#x20;       img.referrerPolicy = "no-referrer";\
+\
+&#x20;       img.onerror = function () {\
+&#x20;         this.onerror = null;\
+&#x20;         this.src = defaultImg;\
+&#x20;       };\
+\
+&#x20;       thumbWrapper.appendChild(img);\
+\
+&#x20;       const content = document.createElement("div");\
+&#x20;       content.className = "card-content";\
+\
+&#x20;       const heading = document.createElement("h3");\
+&#x20;       heading.textContent = title;\
+\
+&#x20;       const date = document.createElement("div");\
+&#x20;       date.className = "blog-date";\
+&#x20;       date.textContent = formatDate(item.pubDate);\
+\
+&#x20;       content.appendChild(heading);\
+&#x20;       content.appendChild(date);\
+\
+&#x20;       anchor.appendChild(thumbWrapper);\
+&#x20;       anchor.appendChild(content);\
+&#x20;       card.appendChild(anchor);\
+&#x20;       container.appendChild(card);\
+&#x20;     });\
+&#x20;   })\
+&#x20;   .catch(error => {\
+&#x20;     console.error("블로그 JSON 불러오기 오류:", error);\
+\
+&#x20;     container.innerHTML = \`\
+&#x20;       \<p>\
+&#x20;         블로그 소식을 불러오지 못했습니다.\
+&#x20;         \<a href="https\://blog.naver.com/seoulcharm1"\
+&#x20;            target="\_blank"\
+&#x20;            rel="noopener noreferrer">\
+&#x20;           서울참정형외과 네이버 블로그 바로가기\
+&#x20;         \</a>\
+&#x20;       \</p>\
+&#x20;     \`;\
+&#x20;   });\
+});\
+\</script>
