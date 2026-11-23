@@ -658,6 +658,13 @@ hr.dotted-line {
     color: #444;
 }
 
+/* 현재 경력 강조 */
+.doctor-page .current-career {
+    font-weight: 700;
+    color: #1d4e89;
+    font-size: 16px;
+}
+
 /* 경력 및 학력 목록 */
 .doctor-page section ul {
     margin-top: 15px !important;
@@ -683,6 +690,12 @@ hr.dotted-line {
         font-size: 20px;
     }
 
+   .doctor-page .current-career {
+        color: #1d4e89;
+    font-size: 20px;
+}
+
+   
     .doctor-page .doctor-intro p {
         font-size: 15.5px;
     }
