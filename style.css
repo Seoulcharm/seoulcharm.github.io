@@ -610,57 +610,48 @@ hr.dotted-line {
 
 
 /* 의료진 소개 페이지 경력·학력 가독성 개선 */
-
-/* 섹션 제목 */
-main.doctor-page section > h3 {
+/* 경력 및 학력 섹션 개선 */
+.doctor-page section > h3 {
     font-size: 22px;
-    margin-bottom: 22px;
     line-height: 1.5;
+    margin-bottom: 20px;
+}
+.doctor-page h3 {
+    margin-top: 35px;
 }
 
-/* 경력 및 학력 설명 문구 */
-main.doctor-page section > h3 + p,
-main.doctor-page section > h3 + p + p {
+/* 섹션 설명 문구 */
+.doctor-page section > h3 + p {
     font-size: 16px;
     line-height: 1.8;
     color: #444;
-    margin-bottom: 12px;
 }
 
-/* 경력 및 학력 목록 */
-main.doctor-page section ul {
-    margin-top: 18px;
-    margin-bottom: 28px;
+/* 경력 및 학력 목록 간격 */
+.doctor-page section ul {
+    margin-top: 15px;
+    margin-bottom: 25px;
     padding-left: 22px;
 }
 
-/* 목록 항목 간격 줄이기 */
-main.doctor-page section ul li {
+.doctor-page section ul li {
     margin-bottom: 8px !important;
     line-height: 1.7;
     font-size: 15.5px;
 }
 
-/* 목록 마지막 항목 */
-main.doctor-page section ul li:last-child {
-    margin-bottom: 0 !important;
-}
-
 /* 모바일 */
 @media screen and (max-width: 840px) {
-    main.doctor-page section > h3 {
+    .doctor-page section > h3 {
         font-size: 20px;
-        margin-bottom: 18px;
     }
 
-    main.doctor-page section > h3 + p,
-    main.doctor-page section > h3 + p + p {
+    .doctor-page section > h3 + p {
         font-size: 15.5px;
-        line-height: 1.8;
     }
 
-    main.doctor-page section ul li {
-        margin-bottom: 9px !important;
+    .doctor-page section ul li {
         font-size: 15px;
+        margin-bottom: 9px !important;
     }
 }
