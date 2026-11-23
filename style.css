@@ -609,31 +609,63 @@ hr.dotted-line {
 }
 
 
-/* 의료진 소개 페이지 경력·학력 가독성 개선 */
-/* 경력 및 학력 섹션 개선 */
-.doctor-page section > h3 {
-    font-size: 22px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-.doctor-page h3 {
-    margin-top: 35px;
+/* ================================
+   의료진 소개 페이지 최종 스타일
+================================ */
+
+/* 파란색 강조 소개 영역 */
+.doctor-page .doctor-intro {
+    background-color: #f3f6f8 !important;
+    border-left: 4px solid #315d78 !important;
+    border-radius: 5px;
+    padding: 26px 24px;
+    margin: 30px 0;
+    line-height: 1.9;
 }
 
-/* 섹션 설명 문구 */
+/* 강조 영역 제목 */
+.doctor-page .doctor-intro h3 {
+    color: #315d78;
+    font-size: 22px;
+    margin-top: 0 !important;
+    margin-bottom: 20px;
+}
+
+/* 강조 영역 본문 */
+.doctor-page .doctor-intro p {
+    font-size: 16px;
+    line-height: 1.9;
+    margin-bottom: 15px;
+}
+
+/* 섹션 제목 */
+.doctor-page section > h3 {
+    font-size: 22px !important;
+    line-height: 1.5;
+    margin-top: 40px !important;
+    margin-bottom: 20px !important;
+}
+
+/* 마지막 설명 문단과 다음 제목 사이 간격 */
+.doctor-page section > div p:last-child {
+    margin-bottom: 25px;
+}
+
+/* 경력·학력 설명 */
 .doctor-page section > h3 + p {
     font-size: 16px;
     line-height: 1.8;
     color: #444;
 }
 
-/* 경력 및 학력 목록 간격 */
+/* 경력 및 학력 목록 */
 .doctor-page section ul {
-    margin-top: 15px;
-    margin-bottom: 25px;
+    margin-top: 15px !important;
+    margin-bottom: 25px !important;
     padding-left: 22px;
 }
 
+/* 목록 간격 */
 .doctor-page section ul li {
     margin-bottom: 8px !important;
     line-height: 1.7;
@@ -642,12 +674,22 @@ hr.dotted-line {
 
 /* 모바일 */
 @media screen and (max-width: 840px) {
-    .doctor-page section > h3 {
+
+    .doctor-page .doctor-intro {
+        padding: 20px 17px;
+    }
+
+    .doctor-page .doctor-intro h3 {
         font-size: 20px;
     }
 
-    .doctor-page section > h3 + p {
+    .doctor-page .doctor-intro p {
         font-size: 15.5px;
+    }
+
+    .doctor-page section > h3 {
+        font-size: 20px !important;
+        margin-top: 32px !important;
     }
 
     .doctor-page section ul li {
