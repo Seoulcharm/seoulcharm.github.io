@@ -607,3 +607,92 @@ hr.dotted-line {
     display: block;
   }
 }
+
+
+/* ────────────────────────────────────────────
+   의료진 소개 페이지 전용 디자인
+──────────────────────────────────────────── */
+
+/* 진료 철학 강조 영역 */
+.doctor-intro {
+  margin: 30px 0;
+  padding: 26px 24px;
+  background: #f3f6f8;
+  border-left: 4px solid #315d78;
+  border-radius: 5px;
+  line-height: 1.9;
+}
+
+.doctor-intro h3 {
+  color: #234b65;
+  font-size: 22px;
+  line-height: 1.5;
+  margin: 0 0 22px;
+}
+
+.doctor-intro p {
+  margin: 0 0 17px;
+  color: #444;
+  line-height: 1.8;
+}
+
+.doctor-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.doctor-intro strong,
+.doctor-principle strong {
+  color: #234b65;
+  font-weight: 700;
+}
+
+/* 치료 원칙 강조 영역 */
+.doctor-principle {
+  margin: 30px 0;
+  padding: 24px;
+  background: #f7f8fa;
+  border-radius: 6px;
+  line-height: 1.9;
+}
+
+.doctor-principle h3 {
+  color: #234b65;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.doctor-principle p {
+  margin-bottom: 14px;
+  line-height: 1.8;
+}
+
+/* 의료진 소개 목록 가독성 */
+.doctor-page ul {
+  line-height: 1.9;
+  padding-left: 22px;
+}
+
+.doctor-page ul li {
+  margin-bottom: 12px;
+}
+
+/* 모바일 최적화 */
+@media screen and (max-width: 840px) {
+
+  .doctor-intro {
+    padding: 21px 18px;
+    margin: 24px 0;
+  }
+
+  .doctor-intro h3 {
+    font-size: 20px;
+  }
+
+  .doctor-principle {
+    padding: 21px 18px;
+  }
+
+  .doctor-page ul li {
+    margin-bottom: 14px;
+  }
+}
